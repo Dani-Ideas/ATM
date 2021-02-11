@@ -1,0 +1,76 @@
+var totalReservas = [];
+var entregado = [{cantidad:0}];
+var dinero = 0;
+var div = 0;
+var papeles = 0;
+var n = 0;
+var resultado = document.getElementById("resultado");
+var b = document.getElementById("extraer");
+b.addEventListener("click", entregarDinero);
+
+class Billete
+{
+  constructor(v, c)
+  {
+    this.valor = v;
+    this.cantidad = c;
+  }
+}
+totalReservas.push( new Billete(100, 5) );
+totalReservas.push( new Billete(50, 10) );
+totalReservas.push( new Billete(20, 5) );
+totalReservas.push( new Billete(10, 10) );
+totalReservas.push( new Billete(5, 5) );
+
+function entregarDinero()
+{
+  totalReservas[n].cantidad-=entregado[n].cantidad;
+  reset()
+  var t = document.getElementById("dinero");
+  dinero = parseInt(t.value);
+  for(var bi of totalReservas)
+  {
+
+    if(dinero > 0)
+    {
+      div = Math.floor(dinero / bi.valor);
+
+      if(div > bi.cantidad)
+      {
+        papeles = bi.cantidad;
+      }
+      else
+      {
+        papeles = div;
+      }
+      entregado.push( new Billete(bi.valor, papeles) );
+      dinero = dinero - (bi.valor * papeles);
+    }
+
+  }
+
+  if(dinero > 0)
+  {
+    resultado.innerHTML = "Soy un cajero malo, he sido malo y no puedo darte esa cantidad :(";
+  }
+  else
+  {
+    for(var e of entregado)
+    {
+      if(e.cantidad > 0)
+      {
+       resultado.innerHTML += e.cantidad + " billetes de $" + e.valor + "<br />";
+       console.log (n);
+       totalReservas[n].cantidad-=entregado[n].cantidad;
+       n += +1;
+        console.log (totalReservas[0].cantidad,totalReservas[1].cantidad,totalReservas[2].cantidad,totalReservas[3].cantidad,totalReservas[4].cantidad);
+      }
+    }
+  }
+}
+function reset()
+{
+  resultado.innerHTML = "";
+  entregado = [];
+  n = 0;
+}
